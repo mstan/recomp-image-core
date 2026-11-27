@@ -22,7 +22,7 @@ int main(){try{
     std::vector<uint8_t> raw(32*2352),audio(2*2352,0x72);
     for(unsigned i=0;i<32;++i){auto p=raw.data()+i*2352;std::memset(p+1,255,10);p[15]=1;}
     auto data=[&](unsigned lba){return raw.data()+lba*2352+16;};
-    std::memset(data(0),' ',2048);std::memcpy(data(0),"SEGA SEGASATURN",14);data(0)[0xe0]=data(0)[0xe1]=data(0)[0xe3]=0;data(0)[0xe2]=0x10;
+    std::memset(data(0),' ',2048);std::memcpy(data(0),"SEGA SEGASATURN",15);data(0)[0xe0]=data(0)[0xe1]=data(0)[0xe3]=0;data(0)[0xe2]=0x10;
     auto p=data(16);p[0]=1;std::memcpy(p+1,"CD001",5);p[6]=1;p[129]=p[130]=8;
     record(p+156,20,4096,"\0",1,2);
     unsigned at=0;at+=record(data(20)+at,20,4096,"\0",1,2);at+=record(data(20)+at,20,4096,"\1",1,2);
