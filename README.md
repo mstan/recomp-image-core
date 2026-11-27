@@ -1,5 +1,7 @@
 # recomp-image-core
 
+Current licensing and the grant for existing owner contributions are documented in [LICENSE-SCOPE.md](LICENSE-SCOPE.md).
+
 Private reusable host-native, read-only disc-image library. No console runtime or game inputs are required to build it. Production consumers are intentionally unchanged pending combined integration experiments.
 
 ## Build
