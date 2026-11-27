@@ -215,6 +215,7 @@ public:
      * @return Number of bytes read (0 if error or file not found)
      */
     size_t ReadFile(const std::string& path, uint8_t* buffer, size_t max_size);
+    size_t ReadFile(const ISOFileEntry& entry, uint32_t offset, uint8_t* buffer, size_t max_size);
 
     /**
      * Get file size without reading data
