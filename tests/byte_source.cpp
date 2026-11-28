@@ -1,5 +1,7 @@
 #include "recomp_image/byte_source.hpp"
 #include <array>
+#include <chrono>
+#include <string>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
@@ -17,8 +19,10 @@ int main(int argc, char **argv) {
         CHECK(argc == 2);
         const auto root = std::filesystem::u8path(argv[1]);
         std::filesystem::create_directories(root);
-        const auto path = root / std::filesystem::u8path("physical-\xc3\xa9.img");
-        struct Cleanup { std::filesystem::path path; ~Cleanup() {std::error_code ec;std::filesystem::remove(path,ec);} } cleanup{path};
+        const auto owned = root / ("read-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+        CHECK(std::filesystem::create_directory(owned));
+        const auto path = owned / std::filesystem::u8path("physical-\xc3\xa9.img");
+        struct Cleanup { std::filesystem::path path; ~Cleanup() {std::error_code ec;std::filesystem::remove(path,ec);std::filesystem::remove(path.parent_path(),ec);} } cleanup{path};
         constexpr uint64_t high = (uint64_t(2) << 30) + 17;
 #ifdef _WIN32
         const auto file = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr,
